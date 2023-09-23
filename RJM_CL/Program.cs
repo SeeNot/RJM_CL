@@ -9,9 +9,11 @@ namespace RJM_CL
     {
         public static void Main(string[] args)
         {   
+            Console.WriteLine("Enter address of first folder!");
+            string dire1 = Console.ReadLine();
+            Console.WriteLine("Enter address of second folder!");
+            string dire2 = Console.ReadLine();;
             Console.WriteLine("Enter first file extension");
-            string dire1 = "D:\\Martins\\real imiges\\test1\\Jpeg" ;
-            string dire2 = "D:\\Martins\\real imiges\\test1\\Raw";
             string extension1 = Console.ReadLine();
             Console.WriteLine("Enter second file extension");
             string extension2 = Console.ReadLine();
@@ -41,7 +43,7 @@ namespace RJM_CL
             {
                 Console.WriteLine(kle);
                 Console.WriteLine(dire2+"\\"+kle+"."+extension2);
-                File.Delete(dire2+"\\"+kle+"."+extension2);
+                //File.Delete(dire2+"\\"+kle+"."+extension2);
             }
 
 
