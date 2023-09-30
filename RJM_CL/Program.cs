@@ -60,9 +60,9 @@ namespace RJM_CL
                 {
                     foreach (var kle in unnecessary)
                     {
-                        //Console.WriteLine(kle);
+                        Console.WriteLine(kle);
                         //Console.WriteLine(dire2+"\\"+kle+"."+extension2);
-                        File.Delete(directory2+"\\"+kle+"."+extension2);
+                        //File.Delete(directory2+"\\"+kle+"."+extension2);
                     }
                 }
                 else if (reallyWantToDelete.ToUpper() == "N")
@@ -89,7 +89,7 @@ namespace RJM_CL
 
         private static string DirectoryInput()
         {
-            
+            string value1 = "nothing";
             string directory1 = Console.ReadLine();
             if (directory1 != null)
             { 
@@ -97,27 +97,35 @@ namespace RJM_CL
                 if (directorycheck[directorycheck.Length-1].ToLower() != "jpeg" &&
                     directorycheck[directorycheck.Length-1].ToLower() != "raw")
                 {
-                    foreach (var ag in directorycheck)
-                    {
-                        
-                        Console.WriteLine(directorycheck[directorycheck.Length-1].ToLower());
-                    }
                     Console.WriteLine("For safety the folder name in which the pictures are should be name \"jpeg\" or \"raw\"");
-                    Console.WriteLine("Enter the file extension!");
+                    Console.WriteLine("Enter the directory!");
                     DirectoryInput();
                 }
+                if (Directory.Exists(directory1)) 
+                {
+                    Console.WriteLine("IS true");
+                    value1 = directory1;
+                    return directory1;
+                }
+                else
+                {
+                    Console.WriteLine("That folder does not exist!");
+                    Console.WriteLine("Enter the directory!");
+                    DirectoryInput();
+                }
+                
+
             }
             else
             {
                 Console.WriteLine("There was a null exception");
                 DirectoryInput();
             }
-            
-            
-            return directory1;    
-            
-            
-            
+            Console.WriteLine(value1);
+            return value1 == "nothing" ? DirectoryInput() : value1;
+
+
+
         }
         
 
