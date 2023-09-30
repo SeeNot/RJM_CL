@@ -93,13 +93,13 @@ namespace RJM_CL
             string directory1 = Console.ReadLine();
             if (directory1 != null)
             { 
-                string[] directorycheck = directory1.Split('\\');
-                if (directorycheck[directorycheck.Length-1].ToLower() != "jpeg" &&
-                    directorycheck[directorycheck.Length-1].ToLower() != "raw")
+                string[] directoryCheck = directory1.Split('\\');
+                if (directoryCheck[directoryCheck.Length-1].ToLower() != "jpeg" &&
+                    directoryCheck[directoryCheck.Length-1].ToLower() != "raw")
                 {
                     Console.WriteLine("For safety the folder name in which the pictures are should be name \"jpeg\" or \"raw\"");
                     Console.WriteLine("Enter the directory!");
-                    DirectoryInput();
+                    return DirectoryInput();
                 }
                 if (Directory.Exists(directory1)) 
                 {
@@ -111,23 +111,14 @@ namespace RJM_CL
                 {
                     Console.WriteLine("That folder does not exist!");
                     Console.WriteLine("Enter the directory!");
-                    DirectoryInput();
+                    return DirectoryInput();
                 }
-                
-
             }
             else
             {
                 Console.WriteLine("There was a null exception");
-                DirectoryInput();
+                return DirectoryInput();
             }
-            Console.WriteLine(value1);
-            return value1 == "nothing" ? DirectoryInput() : value1;
-
-
-
         }
-        
-
     }
 }
