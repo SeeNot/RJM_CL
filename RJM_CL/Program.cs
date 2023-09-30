@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Xml;
-
 namespace RJM_CL
 {
     internal class Program
@@ -13,9 +11,9 @@ namespace RJM_CL
             Console.WriteLine("Hello and welcome to the RJM! \nTo continue press ENTER");
             Console.ReadLine();
             Console.WriteLine("Enter address of first folder!");
-            string directory1 = Console.ReadLine();
+            string directory1 = DirectoryInput();
             Console.WriteLine("Enter address of second folder!");
-            string directory2 = Console.ReadLine();
+            string directory2 = DirectoryInput();
             Console.WriteLine("Enter first file extension");
             string extension1 = Console.ReadLine();
             Console.WriteLine("Enter second file extension");
@@ -31,7 +29,7 @@ namespace RJM_CL
 
 
             var unnecessaryRaws = second.Except(first).ToList();
-            DeletionProcces(unnecessaryRaws,directory2, extension2);
+            DeletionProcess(unnecessaryRaws,directory2, extension2);
             
             Console.WriteLine("Done... \n Press Anything to exit!");
             Console.Read();
@@ -51,17 +49,18 @@ namespace RJM_CL
             return entry.ToList();
         }
 
-        private static void DeletionProcces(List<String> unnecessary, string directory2, string extension2)
+        private static void DeletionProcess(List<String> unnecessary, string directory2, string extension2)
         {
             Console.WriteLine($"Are you sure you want to delete {unnecessary.Count.ToString()} files? Y/N" );
             String reallyWantToDelete = Console.ReadLine();
+            
             try
             {
                 if (reallyWantToDelete.ToUpper() == "Y")
                 {
                     foreach (var kle in unnecessary)
                     {
-                        Console.WriteLine(kle);
+                        //Console.WriteLine(kle);
                         //Console.WriteLine(dire2+"\\"+kle+"."+extension2);
                         File.Delete(directory2+"\\"+kle+"."+extension2);
                     }
@@ -75,17 +74,52 @@ namespace RJM_CL
                 else
                 {
                     Console.WriteLine("Input error, try again!");
-                    DeletionProcces(unnecessary, directory2, extension2);
+                    DeletionProcess(unnecessary, directory2, extension2);
                 }
             }
             catch (NullReferenceException e)
             {
                 Console.WriteLine("Input error, try again!");
-                DeletionProcces(unnecessary, directory2, extension2);
+                DeletionProcess(unnecessary, directory2, extension2);
+                
             }
             
             
         }
+
+        private static string DirectoryInput()
+        {
+            
+            string directory1 = Console.ReadLine();
+            if (directory1 != null)
+            { 
+                string[] directorycheck = directory1.Split('\\');
+                if (directorycheck[directorycheck.Length-1].ToLower() != "jpeg" &&
+                    directorycheck[directorycheck.Length-1].ToLower() != "raw")
+                {
+                    foreach (var ag in directorycheck)
+                    {
+                        
+                        Console.WriteLine(directorycheck[directorycheck.Length-1].ToLower());
+                    }
+                    Console.WriteLine("For safety the folder name in which the pictures are should be name \"jpeg\" or \"raw\"");
+                    Console.WriteLine("Enter the file extension!");
+                    DirectoryInput();
+                }
+            }
+            else
+            {
+                Console.WriteLine("There was a null exception");
+                DirectoryInput();
+            }
+            
+            
+            return directory1;    
+            
+            
+            
+        }
+        
 
     }
 }
