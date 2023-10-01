@@ -7,18 +7,40 @@ namespace RJM_CL
     internal class Program
     {
         public static void Main(string[] args)
-        {   
+        {
+            string extension1 = null, extension2 = null, answer1;
             Console.WriteLine("Hello and welcome to the RJM! \nTo continue press ENTER");
             Console.ReadLine();
             Console.WriteLine("Enter address of first folder!");
             string directory1 = DirectoryInput();
             Console.WriteLine("Enter address of second folder!");
             string directory2 = DirectoryInput();
-            Console.WriteLine("Enter first file extension");
-            string extension1 = Console.ReadLine();
-            Console.WriteLine("Enter second file extension");
-            string extension2 = Console.ReadLine();
-          
+
+            do
+            {
+                Console.WriteLine(" Automatic file extension set up? Y/N");
+                answer1 = Console.ReadLine();
+            } while (answer1.ToUpper() != "Y" && answer1.ToUpper() != "N");
+            
+            if (answer1.ToUpper() == "Y")
+            {
+                extension1 = AutomaticExtensionSetter(directory1);
+                extension2 = AutomaticExtensionSetter(directory2);
+                if (extension1 == null || extension2 == null)
+                {
+                    Console.WriteLine("Enter first file extension");
+                    extension1 = Console.ReadLine();
+                    Console.WriteLine("Enter second file extension");
+                    extension2 = Console.ReadLine();
+                }
+            }
+            else if (answer1.ToUpper() == "N")
+            {
+                Console.WriteLine("Enter first file extension");
+                extension1 = Console.ReadLine();
+                Console.WriteLine("Enter second file extension");
+                extension2 = Console.ReadLine();
+            }
             
             string[] entryOne = Directory.GetFiles(directory1);
             string[] entryTwo = Directory.GetFiles(directory2);
@@ -60,9 +82,8 @@ namespace RJM_CL
                 {
                     foreach (var kle in unnecessary)
                     {
-                        Console.WriteLine(kle);
-                        //Console.WriteLine(dire2+"\\"+kle+"."+extension2);
-                        //File.Delete(directory2+"\\"+kle+"."+extension2);
+                        //Console.WriteLine(kle);
+                        File.Delete(directory2+"\\"+kle+"."+extension2);
                     }
                 }
                 else if (reallyWantToDelete.ToUpper() == "N")
@@ -83,13 +104,10 @@ namespace RJM_CL
                 DeletionProcess(unnecessary, directory2, extension2);
                 
             }
-            
-            
         }
 
         private static string DirectoryInput()
         {
-            string value1 = "nothing";
             string directory1 = Console.ReadLine();
             if (directory1 != null)
             { 
@@ -101,10 +119,8 @@ namespace RJM_CL
                     Console.WriteLine("Enter the directory!");
                     return DirectoryInput();
                 }
-                if (Directory.Exists(directory1)) 
+                if (Directory.Exists(directory1))
                 {
-                    Console.WriteLine("IS true");
-                    value1 = directory1;
                     return directory1;
                 }
                 else
@@ -119,6 +135,22 @@ namespace RJM_CL
                 Console.WriteLine("There was a null exception");
                 return DirectoryInput();
             }
+        }
+
+        private static string AutomaticExtensionSetter(string givenDirectory)
+        {
+            string[] fileEntries = Directory.GetFiles(givenDirectory);
+
+            for (int i = 0; i < fileEntries.Length; i++)
+            {
+                fileEntries[i] = fileEntries[i].Substring(fileEntries[i].IndexOf(".") + 1);
+            }
+
+            string[] uniqeEntries = fileEntries.Distinct().ToArray();
+            
+            if (uniqeEntries.Length > 1){return uniqeEntries[0];}
+            Console.WriteLine("There are files with different extensions in the folders. Continue at your own risk! The extensions will have to be set manually! ");
+            return null;
         }
     }
 }
