@@ -143,12 +143,11 @@ namespace RJM_CL
 
             for (int i = 0; i < fileEntries.Length; i++)
             {
-                fileEntries[i] = fileEntries[i].Substring(fileEntries[i].IndexOf(".") + 1);
+                fileEntries[i] = fileEntries[i].Substring(fileEntries[i].LastIndexOf(".") + 1);
             }
 
-            string[] uniqeEntries = fileEntries.Distinct().ToArray();
-            
-            if (uniqeEntries.Length > 1){return uniqeEntries[0];}
+            string[] uniqueEntries = fileEntries.Distinct().ToArray();
+            if (uniqueEntries.Length == 1){return uniqueEntries[0];}
             Console.WriteLine("There are files with different extensions in the folders. Continue at your own risk! The extensions will have to be set manually! ");
             return null;
         }
